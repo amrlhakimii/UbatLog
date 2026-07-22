@@ -7,10 +7,13 @@ import { Card } from '../components/Card';
 import { EmptyState } from '../components/EmptyState';
 import { ErrorBanner } from '../components/ErrorBanner';
 import { Spinner } from '../components/Spinner';
+import { SuccessToast } from '../components/SuccessToast';
 import { useAuth } from '../hooks/useAuth';
 import { useConfigList } from '../hooks/useConfigList';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
+import { useSuccessToast } from '../hooks/useSuccessToast';
 import { groupByProduct } from '../lib/grouping';
+import { formatRM } from '../lib/pricing';
 import { createRecord } from '../lib/records';
 
 const AVATAR_COLORS = ['#ff4081', '#d6336c', '#a61c49', '#ff8fa6', '#c2185b'];
@@ -37,6 +40,7 @@ export function ProductsIndex() {
   const { values: unitOptions } = useConfigList('units');
   const [search, setSearch] = useState('');
   const [addingNew, setAddingNew] = useState(false);
+  const successToast = useSuccessToast();
 
   const manufacturerOptions = useMemo(
     () => Array.from(new Set(records.map((r) => r.manufacturerName))).sort(),
@@ -51,12 +55,22 @@ export function ProductsIndex() {
     [records],
   );
 
+  const allGroups = useMemo(() => groupByProduct(records), [records]);
+
   const groups = useMemo(() => {
-    const all = groupByProduct(records).sort((a, b) => a.displayName.localeCompare(b.displayName));
-    if (!search.trim()) return all;
+    const sorted = [...allGroups].sort((a, b) => a.displayName.localeCompare(b.displayName));
+    if (!search.trim()) return sorted;
     const q = search.trim().toLowerCase();
-    return all.filter((g) => g.displayName.toLowerCase().includes(q));
-  }, [records, search]);
+    return sorted.filter((g) => g.displayName.toLowerCase().includes(q));
+  }, [allGroups, search]);
+
+  const monthSpend = useMemo(() => {
+    const now = new Date();
+    const prefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    return records
+      .filter((r) => r.datePurchased.startsWith(prefix))
+      .reduce((sum, r) => sum + r.priceBought, 0);
+  }, [records]);
 
   const firstName = user?.displayName?.split(' ')[0] ?? '';
 
@@ -66,6 +80,29 @@ export function ProductsIndex() {
       <h1 className="mt-1 font-display text-2xl font-extrabold tracking-tight text-gray-900">
         Welcome back{firstName ? `, ${firstName}` : ''} 👋
       </h1>
+
+      {!loading && !error && records.length > 0 && (
+        <div className="mt-5 grid grid-cols-3 gap-3">
+          <Card className="bg-gradient-to-br from-brand-50 to-white p-3.5">
+            <p className="label-eyebrow">Products</p>
+            <p className="mt-1 font-display text-xl font-extrabold text-gray-900">
+              {allGroups.length}
+            </p>
+          </Card>
+          <Card className="bg-gradient-to-br from-brand-50 to-white p-3.5">
+            <p className="label-eyebrow">Restocks logged</p>
+            <p className="mt-1 font-display text-xl font-extrabold text-gray-900">
+              {records.length}
+            </p>
+          </Card>
+          <Card className="bg-gradient-to-br from-brand-50 to-white p-3.5">
+            <p className="label-eyebrow">Spent this month</p>
+            <p className="mt-1 font-display text-xl font-extrabold text-brand-700">
+              {formatRM(monthSpend)}
+            </p>
+          </Card>
+        </div>
+      )}
 
       <div className="mt-6 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-gray-500">Products</h2>
@@ -93,13 +130,14 @@ export function ProductsIndex() {
         <Spinner label="Loading products..." />
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {groups.map((g) => {
+          {groups.map((g, index) => {
             const latest = g.records[0];
             const color = avatarColor(g.displayName);
             return (
               <Card
                 key={g.key}
-                className="animate-fade-up cursor-pointer p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]"
+                className="animate-fade-up cursor-pointer p-4 text-left opacity-0 transition-all [animation-fill-mode:forwards] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]"
+                style={{ animationDelay: `${Math.min(index, 12) * 40}ms` }}
               >
                 <button
                   type="button"
@@ -146,8 +184,13 @@ export function ProductsIndex() {
           onClose={() => setAddingNew(false)}
           onSave={async (input) => {
             await createRecord(input);
+            successToast.show('Purchase saved');
           }}
         />
+      )}
+
+      {successToast.message && (
+        <SuccessToast message={successToast.message} onDone={successToast.clear} />
       )}
     </div>
   );

@@ -6,10 +6,12 @@ import { ErrorBanner } from '../components/ErrorBanner';
 import { FilterBar } from '../components/FilterBar';
 import { RecordsTable } from '../components/RecordsTable';
 import { Spinner } from '../components/Spinner';
+import { SuccessToast } from '../components/SuccessToast';
 import { UndoToast } from '../components/UndoToast';
 import { useConfigList } from '../hooks/useConfigList';
 import { useDeleteWithUndo } from '../hooks/useDeleteWithUndo';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
+import { useSuccessToast } from '../hooks/useSuccessToast';
 import { applyFilters, DEFAULT_FILTERS, type RecordFilters } from '../lib/filters';
 import { createRecord, updateRecord } from '../lib/records';
 import type { MedicationRecord } from '../types';
@@ -21,6 +23,7 @@ export function AllRecords() {
   const [filters, setFilters] = useState<RecordFilters>(DEFAULT_FILTERS);
   const [modalRecord, setModalRecord] = useState<MedicationRecord | 'new' | null>(null);
   const { pendingDeleteId, pendingLabel, requestDelete, undo, expire } = useDeleteWithUndo();
+  const successToast = useSuccessToast();
 
   const manufacturerOptions = useMemo(
     () => Array.from(new Set(records.map((r) => r.manufacturerName))).sort(),
@@ -84,8 +87,10 @@ export function AllRecords() {
           onSave={async (input) => {
             if (modalRecord === 'new') {
               await createRecord(input);
+              successToast.show('Purchase saved');
             } else {
               await updateRecord(modalRecord.id, input);
+              successToast.show('Purchase updated');
             }
           }}
           onDelete={
@@ -100,6 +105,10 @@ export function AllRecords() {
           onUndo={undo}
           onExpire={expire}
         />
+      )}
+
+      {successToast.message && (
+        <SuccessToast message={successToast.message} onDone={successToast.clear} />
       )}
     </div>
   );

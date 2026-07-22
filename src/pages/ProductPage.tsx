@@ -7,10 +7,12 @@ import { ErrorBanner } from '../components/ErrorBanner';
 import { QuickPriceCalculator } from '../components/QuickPriceCalculator';
 import { RecordsTable } from '../components/RecordsTable';
 import { Spinner } from '../components/Spinner';
+import { SuccessToast } from '../components/SuccessToast';
 import { UndoToast } from '../components/UndoToast';
 import { useConfigList } from '../hooks/useConfigList';
 import { useDeleteWithUndo } from '../hooks/useDeleteWithUndo';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
+import { useSuccessToast } from '../hooks/useSuccessToast';
 import { groupKey } from '../lib/grouping';
 import { createRecord, updateRecord } from '../lib/records';
 import type { MedicationRecord } from '../types';
@@ -34,6 +36,7 @@ export function ProductPage() {
   const { values: unitOptions } = useConfigList('units');
   const [modalRecord, setModalRecord] = useState<MedicationRecord | 'new' | null>(null);
   const { pendingDeleteId, pendingLabel, requestDelete, undo, expire } = useDeleteWithUndo();
+  const successToast = useSuccessToast();
 
   const decodedSlug = decodeURIComponent(slug);
 
@@ -131,8 +134,10 @@ export function ProductPage() {
           onSave={async (input) => {
             if (modalRecord === 'new') {
               await createRecord(input);
+              successToast.show('Purchase saved');
             } else {
               await updateRecord(modalRecord.id, input);
+              successToast.show('Purchase updated');
             }
           }}
           onDelete={modalRecord !== 'new' ? () => requestDelete(modalRecord) : undefined}
@@ -141,6 +146,10 @@ export function ProductPage() {
 
       {pendingDeleteId && (
         <UndoToast message={`Deleted ${pendingLabel}`} onUndo={undo} onExpire={expire} />
+      )}
+
+      {successToast.message && (
+        <SuccessToast message={successToast.message} onDone={successToast.clear} />
       )}
     </div>
   );
