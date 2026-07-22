@@ -15,7 +15,7 @@ export function NavBar() {
     <nav className="border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
-          <span className="text-lg font-bold text-purple-700">UbatLog</span>
+          <span className="text-lg font-bold text-brand-700">UbatLog</span>
           <div className="flex gap-1">
             {links.map((link) => (
               <NavLink
@@ -25,7 +25,7 @@ export function NavBar() {
                 className={({ isActive }) =>
                   `rounded-lg px-3 py-2 text-sm font-medium ${
                     isActive
-                      ? 'bg-purple-100 text-purple-700'
+                      ? 'bg-brand-100 text-brand-700'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`
                 }

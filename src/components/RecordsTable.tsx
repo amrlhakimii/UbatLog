@@ -145,7 +145,7 @@ export function RecordsTable({ records, onRowClick }: RecordsTableProps) {
               <tr
                 key={r.id}
                 onClick={() => onRowClick(r)}
-                className="cursor-pointer hover:bg-purple-50"
+                className="cursor-pointer hover:bg-brand-50"
               >
                 {columns.map((col) => (
                   <td key={col.key} className="px-4 py-2 text-gray-800">

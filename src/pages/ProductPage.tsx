@@ -47,7 +47,7 @@ export function ProductPage() {
   if (error) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-6">
-        <Link to="/" className="text-sm text-purple-600 hover:underline">
+        <Link to="/" className="text-sm text-brand-600 hover:underline">
           &larr; Back to Products
         </Link>
         <div className="mt-6">
@@ -60,7 +60,7 @@ export function ProductPage() {
   if (!loading && productRecords.length === 0 && !modalRecord) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-6">
-        <Link to="/" className="text-sm text-purple-600 hover:underline">
+        <Link to="/" className="text-sm text-brand-600 hover:underline">
           &larr; Back to Products
         </Link>
         <div className="mt-6 text-center text-gray-400">Product not found.</div>
@@ -73,7 +73,7 @@ export function ProductPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      <Link to="/" className="text-sm text-purple-600 hover:underline">
+      <Link to="/" className="text-sm text-brand-600 hover:underline">
         &larr; Back to Products
       </Link>
 
@@ -82,7 +82,7 @@ export function ProductPage() {
         <button
           type="button"
           onClick={() => setModalRecord('new')}
-          className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
         >
           + Add Purchase
         </button>

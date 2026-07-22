@@ -44,7 +44,7 @@ export function QuickPriceCalculator({
             step="0.01"
             value={priceBought}
             onChange={(e) => setPriceBought(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
           />
         </div>
         <div>
@@ -57,12 +57,12 @@ export function QuickPriceCalculator({
             step="1"
             value={quantityPerPackage}
             onChange={(e) => setQuantityPerPackage(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
           />
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-4 rounded-lg bg-purple-50 p-4">
+      <div className="mt-4 grid grid-cols-2 gap-4 rounded-lg bg-brand-50 p-4">
         <div>
           <div className="text-xs text-gray-500">Cost per unit</div>
           <div className="text-lg font-semibold text-gray-900">
@@ -71,7 +71,7 @@ export function QuickPriceCalculator({
         </div>
         <div>
           <div className="text-xs text-gray-500">Recommended price per unit</div>
-          <div className="text-lg font-semibold text-purple-700">
+          <div className="text-lg font-semibold text-brand-700">
             {valid ? formatRM(recommended) : '—'}
           </div>
         </div>
@@ -88,7 +88,7 @@ export function QuickPriceCalculator({
           placeholder="e.g. 10"
           value={quantityToSell}
           onChange={(e) => setQuantityToSell(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
         />
         {total !== null && (
           <div className="mt-2 text-sm text-gray-700">

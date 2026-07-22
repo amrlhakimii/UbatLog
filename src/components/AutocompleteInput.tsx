@@ -43,7 +43,7 @@ export function AutocompleteInput({
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
         autoComplete="off"
       />
       {showDropdown && (
@@ -52,7 +52,7 @@ export function AutocompleteInput({
             <li key={s}>
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 hover:bg-purple-50 text-sm"
+                className="w-full text-left px-3 py-2 hover:bg-brand-50 text-sm"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => {
                   onChange(s);

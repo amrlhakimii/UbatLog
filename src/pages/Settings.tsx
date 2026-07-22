@@ -57,7 +57,7 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
                 {editing === v ? (
                   <button
                     type="button"
-                    className="text-sm font-medium text-purple-600 hover:text-purple-800"
+                    className="text-sm font-medium text-brand-600 hover:text-brand-800"
                     onClick={async () => {
                       if (editValue.trim()) await updateConfigValue(name, v, editValue, values);
                       setEditing(null);
@@ -114,7 +114,7 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
               setNewValue('');
             }
           }}
-          className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
         >
           Add
         </button>

@@ -44,7 +44,7 @@ export function AllRecords() {
         <button
           type="button"
           onClick={() => setModalRecord('new')}
-          className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
         >
           + Add Entry
         </button>

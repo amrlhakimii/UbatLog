@@ -105,7 +105,7 @@ export function AddEditRecordModal({
               type="date"
               value={datePurchased}
               onChange={(e) => setDatePurchased(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             />
           </div>
 
@@ -145,7 +145,7 @@ export function AddEditRecordModal({
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
               >
                 <option value="">Select...</option>
                 {typeOptions.map((t) => (
@@ -162,7 +162,7 @@ export function AddEditRecordModal({
               <select
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
               >
                 <option value="">Select...</option>
                 {unitOptions.map((u) => (
@@ -185,7 +185,7 @@ export function AddEditRecordModal({
               value={quantityPerPackage}
               onChange={(e) => setQuantityPerPackage(e.target.value)}
               placeholder="e.g. 28"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             />
           </div>
 
@@ -200,7 +200,7 @@ export function AddEditRecordModal({
                 step="0.01"
                 value={priceBought}
                 onChange={(e) => setPriceBought(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
               />
             </div>
             <div>
@@ -213,20 +213,20 @@ export function AddEditRecordModal({
                 step="0.01"
                 value={actualSellingPricePerUnit}
                 onChange={(e) => setActualSellingPricePerUnit(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
               />
             </div>
           </div>
 
           {pricingValid && (
-            <div className="grid grid-cols-2 gap-4 rounded-lg bg-purple-50 p-4">
+            <div className="grid grid-cols-2 gap-4 rounded-lg bg-brand-50 p-4">
               <div>
                 <div className="text-xs text-gray-500">Cost per unit</div>
                 <div className="text-base font-semibold text-gray-900">{formatRM(cost)}</div>
               </div>
               <div>
                 <div className="text-xs text-gray-500">Recommended price / unit</div>
-                <div className="text-base font-semibold text-purple-700">
+                <div className="text-base font-semibold text-brand-700">
                   {formatRM(recommended)}
                 </div>
               </div>
@@ -258,7 +258,7 @@ export function AddEditRecordModal({
               type="button"
               onClick={handleSave}
               disabled={!isValid || saving}
-              className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+              className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-gray-300"
             >
               {saving ? 'Saving...' : 'Save'}
             </button>

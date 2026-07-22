@@ -34,7 +34,7 @@ export function FilterBar({
             onClick={() => set({ quickRange: qr.key, dateFrom: '', dateTo: '' })}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
               filters.quickRange === qr.key && !filters.dateFrom && !filters.dateTo
-                ? 'bg-purple-600 text-white'
+                ? 'bg-brand-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
@@ -44,7 +44,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={() => onChange(DEFAULT_FILTERS)}
-          className="ml-auto text-sm font-medium text-purple-600 hover:text-purple-800"
+          className="ml-auto text-sm font-medium text-brand-600 hover:text-brand-800"
         >
           Clear filters
         </button>

@@ -20,7 +20,7 @@ export function UndoToast({ message, durationMs = 5000, onUndo, onExpire }: Undo
       <button
         type="button"
         onClick={onUndo}
-        className="text-sm font-semibold text-purple-300 hover:text-purple-200"
+        className="text-sm font-semibold text-brand-300 hover:text-brand-200"
       >
         Undo
       </button>
