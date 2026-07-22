@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { AddEditRecordModal } from '../components/AddEditRecordModal';
+import { ErrorBanner } from '../components/ErrorBanner';
 import { FilterBar } from '../components/FilterBar';
 import { RecordsTable } from '../components/RecordsTable';
 import { UndoToast } from '../components/UndoToast';
@@ -11,7 +12,7 @@ import { createRecord, updateRecord } from '../lib/records';
 import type { MedicationRecord } from '../types';
 
 export function AllRecords() {
-  const { records, loading } = useMedicationRecords();
+  const { records, loading, error } = useMedicationRecords();
   const { values: typeOptions } = useConfigList('types');
   const { values: unitOptions } = useConfigList('units');
   const [filters, setFilters] = useState<RecordFilters>(DEFAULT_FILTERS);
@@ -60,7 +61,9 @@ export function AllRecords() {
       </div>
 
       <div className="mt-4">
-        {loading ? (
+        {error ? (
+          <ErrorBanner error={error} />
+        ) : loading ? (
           <div className="py-12 text-center text-gray-400">Loading records...</div>
         ) : (
           <RecordsTable records={visibleRecords} onRowClick={setModalRecord} />

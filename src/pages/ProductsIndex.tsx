@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AddEditRecordModal } from '../components/AddEditRecordModal';
+import { ErrorBanner } from '../components/ErrorBanner';
 import { useConfigList } from '../hooks/useConfigList';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
 import { groupByProduct } from '../lib/grouping';
@@ -8,7 +9,7 @@ import { createRecord } from '../lib/records';
 
 export function ProductsIndex() {
   const navigate = useNavigate();
-  const { records, loading } = useMedicationRecords();
+  const { records, loading, error } = useMedicationRecords();
   const { values: typeOptions } = useConfigList('types');
   const { values: unitOptions } = useConfigList('units');
   const [search, setSearch] = useState('');
@@ -55,7 +56,11 @@ export function ProductsIndex() {
         className="mt-4 w-full max-w-sm rounded-lg border border-gray-300 px-3 py-2 text-sm"
       />
 
-      {loading ? (
+      {error ? (
+        <div className="mt-4">
+          <ErrorBanner error={error} />
+        </div>
+      ) : loading ? (
         <div className="py-12 text-center text-gray-400">Loading products...</div>
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

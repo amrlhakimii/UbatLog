@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AddEditRecordModal } from '../components/AddEditRecordModal';
+import { ErrorBanner } from '../components/ErrorBanner';
 import { QuickPriceCalculator } from '../components/QuickPriceCalculator';
 import { RecordsTable } from '../components/RecordsTable';
 import { UndoToast } from '../components/UndoToast';
@@ -13,7 +14,7 @@ import type { MedicationRecord } from '../types';
 
 export function ProductPage() {
   const { slug = '' } = useParams();
-  const { records, loading } = useMedicationRecords();
+  const { records, loading, error } = useMedicationRecords();
   const { values: typeOptions } = useConfigList('types');
   const { values: unitOptions } = useConfigList('units');
   const [modalRecord, setModalRecord] = useState<MedicationRecord | 'new' | null>(null);
@@ -42,6 +43,19 @@ export function ProductPage() {
     () => Array.from(new Set(records.map((r) => r.productName))).sort(),
     [records],
   );
+
+  if (error) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-6">
+        <Link to="/" className="text-sm text-purple-600 hover:underline">
+          &larr; Back to Products
+        </Link>
+        <div className="mt-6">
+          <ErrorBanner error={error} />
+        </div>
+      </div>
+    );
+  }
 
   if (!loading && productRecords.length === 0 && !modalRecord) {
     return (

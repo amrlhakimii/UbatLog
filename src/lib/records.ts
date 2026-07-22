@@ -14,28 +14,33 @@ const COLLECTION = 'medicationRecords';
 
 export function subscribeToRecords(
   onChange: (records: MedicationRecord[]) => void,
+  onError: (error: Error) => void,
 ): () => void {
   const ref = collection(db, COLLECTION);
-  return onSnapshot(ref, (snapshot) => {
-    const records = snapshot.docs.map((d) => {
-      const data = d.data();
-      return {
-        id: d.id,
-        datePurchased: data.datePurchased,
-        manufacturerName: data.manufacturerName,
-        productName: data.productName,
-        pharmacyBoughtFrom: data.pharmacyBoughtFrom,
-        type: data.type,
-        unit: data.unit,
-        quantityPerPackage: data.quantityPerPackage,
-        priceBought: data.priceBought,
-        actualSellingPricePerUnit: data.actualSellingPricePerUnit,
-        createdAt: data.createdAt?.toMillis?.() ?? 0,
-        updatedAt: data.updatedAt?.toMillis?.() ?? 0,
-      } satisfies MedicationRecord;
-    });
-    onChange(records);
-  });
+  return onSnapshot(
+    ref,
+    (snapshot) => {
+      const records = snapshot.docs.map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          datePurchased: data.datePurchased,
+          manufacturerName: data.manufacturerName,
+          productName: data.productName,
+          pharmacyBoughtFrom: data.pharmacyBoughtFrom,
+          type: data.type,
+          unit: data.unit,
+          quantityPerPackage: data.quantityPerPackage,
+          priceBought: data.priceBought,
+          actualSellingPricePerUnit: data.actualSellingPricePerUnit,
+          createdAt: data.createdAt?.toMillis?.() ?? 0,
+          updatedAt: data.updatedAt?.toMillis?.() ?? 0,
+        } satisfies MedicationRecord;
+      });
+      onChange(records);
+    },
+    onError,
+  );
 }
 
 export async function createRecord(input: MedicationRecordInput): Promise<void> {

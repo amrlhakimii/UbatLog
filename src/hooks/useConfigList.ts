@@ -5,17 +5,29 @@ import type { ConfigListName } from '../types';
 export function useConfigList(name: ConfigListName) {
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     let unsubscribe: () => void = () => {};
-    ensureSeeded(name).finally(() => {
-      unsubscribe = subscribeToConfigList(name, (next) => {
-        setValues(next);
-        setLoading(false);
+    ensureSeeded(name)
+      .catch(() => {
+        // Subscription error handler below surfaces the same failure.
+      })
+      .finally(() => {
+        unsubscribe = subscribeToConfigList(
+          name,
+          (next) => {
+            setValues(next);
+            setLoading(false);
+          },
+          (err) => {
+            setError(err);
+            setLoading(false);
+          },
+        );
       });
-    });
     return () => unsubscribe();
   }, [name]);
 
-  return { values, loading };
+  return { values, loading, error };
 }

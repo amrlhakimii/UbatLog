@@ -20,11 +20,16 @@ export async function ensureSeeded(name: ConfigListName): Promise<void> {
 export function subscribeToConfigList(
   name: ConfigListName,
   onChange: (values: string[]) => void,
+  onError: (error: Error) => void,
 ): () => void {
   const ref = doc(db, COLLECTION, name);
-  return onSnapshot(ref, (snap) => {
-    onChange(snap.exists() ? (snap.data().values ?? []) : []);
-  });
+  return onSnapshot(
+    ref,
+    (snap) => {
+      onChange(snap.exists() ? (snap.data().values ?? []) : []);
+    },
+    onError,
+  );
 }
 
 export async function addConfigValue(name: ConfigListName, value: string, current: string[]): Promise<void> {

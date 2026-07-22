@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ConfirmDialog } from '../components/ConfirmDialog';
+import { ErrorBanner } from '../components/ErrorBanner';
 import { useConfigList } from '../hooks/useConfigList';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
 import {
@@ -11,7 +12,7 @@ import {
 import type { ConfigListName } from '../types';
 
 function ConfigListEditor({ name, title }: { name: ConfigListName; title: string }) {
-  const { values, loading } = useConfigList(name);
+  const { values, loading, error } = useConfigList(name);
   const { records } = useMedicationRecords();
   const [newValue, setNewValue] = useState('');
   const [editing, setEditing] = useState<string | null>(null);
@@ -25,7 +26,11 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <h2 className="text-base font-semibold text-gray-900">{title}</h2>
 
-      {loading ? (
+      {error ? (
+        <div className="mt-4">
+          <ErrorBanner error={error} />
+        </div>
+      ) : loading ? (
         <div className="mt-4 text-sm text-gray-400">Loading...</div>
       ) : (
         <ul className="mt-4 divide-y divide-gray-100">
