@@ -6,7 +6,7 @@ export function NotAuthorized() {
   const { user, signOut } = useAuth();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
+    <div className="app-bg flex items-center justify-center px-4">
       <Card className="w-full max-w-sm animate-fade-up p-8 text-center">
         <span className="text-3xl">🔒</span>
         <h1 className="mt-2 font-display text-xl font-extrabold tracking-tight text-gray-900">

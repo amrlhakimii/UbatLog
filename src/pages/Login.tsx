@@ -19,7 +19,7 @@ export function Login() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
+    <div className="app-bg flex items-center justify-center px-4">
       <Card className="w-full max-w-sm animate-fade-up p-8 text-center">
         <p className="label-eyebrow">Welcome to</p>
         <h1 className="mt-1 font-display text-2xl font-extrabold tracking-tight text-gray-900">

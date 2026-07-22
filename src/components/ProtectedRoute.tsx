@@ -23,7 +23,7 @@ export function ProtectedRoute() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-bg">
       <NavBar />
       <Outlet />
     </div>

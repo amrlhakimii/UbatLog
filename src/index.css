@@ -51,6 +51,18 @@ body {
   min-height: 100dvh;
 }
 
+.app-bg {
+  min-height: 100dvh;
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(560px circle at 8% -8%, rgba(255, 64, 129, 0.14), transparent 60%),
+    radial-gradient(480px circle at 108% 15%, rgba(214, 51, 108, 0.12), transparent 60%),
+    radial-gradient(680px circle at 50% 115%, rgba(255, 182, 193, 0.22), transparent 60%),
+    radial-gradient(rgba(255, 64, 129, 0.14) 1.4px, transparent 1.4px);
+  background-size: auto, auto, auto, 24px 24px;
+  background-color: #fffafc;
+}
+
 h1,
 h2,
 h3 {
