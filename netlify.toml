@@ -2,6 +2,11 @@
   command = "yarn build"
   publish = "dist"
 
+[build.environment]
+  # Firebase web config is a public client identifier, not a secret — it ships
+  # in every browser bundle by design. Real access control is Firestore rules.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_FIREBASE_API_KEY,VITE_FIREBASE_APP_ID,VITE_FIREBASE_AUTH_DOMAIN,VITE_FIREBASE_MESSAGING_SENDER_ID,VITE_FIREBASE_PROJECT_ID,VITE_FIREBASE_STORAGE_BUCKET"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
