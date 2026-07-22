@@ -32,8 +32,8 @@ export function AutocompleteInput({
 
   return (
     <div className="relative">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
-        {label} {required && <span className="text-red-500">*</span>}
+      <label htmlFor={id} className="label-eyebrow mb-1 block">
+        {label} {required && <span className="text-brand-600">*</span>}
       </label>
       <input
         id={id}
@@ -43,16 +43,16 @@ export function AutocompleteInput({
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm transition-colors focus:border-brand-500 focus:bg-white focus:outline-none"
         autoComplete="off"
       />
       {showDropdown && (
-        <ul className="absolute z-20 mt-1 w-full max-h-48 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+        <ul className="absolute z-20 mt-1 w-full max-h-48 overflow-auto rounded-xl border border-black/5 bg-white shadow-lg">
           {filtered.map((s) => (
             <li key={s}>
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 hover:bg-brand-50 text-sm"
+                className="w-full cursor-pointer text-left px-3 py-2 hover:bg-brand-50 text-sm transition-colors"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => {
                   onChange(s);

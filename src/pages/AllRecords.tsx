@@ -1,8 +1,11 @@
+import { Plus } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { AddEditRecordModal } from '../components/AddEditRecordModal';
+import { Button } from '../components/Button';
 import { ErrorBanner } from '../components/ErrorBanner';
 import { FilterBar } from '../components/FilterBar';
 import { RecordsTable } from '../components/RecordsTable';
+import { Spinner } from '../components/Spinner';
 import { UndoToast } from '../components/UndoToast';
 import { useConfigList } from '../hooks/useConfigList';
 import { useDeleteWithUndo } from '../hooks/useDeleteWithUndo';
@@ -40,14 +43,12 @@ export function AllRecords() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-900">All Records</h1>
-        <button
-          type="button"
-          onClick={() => setModalRecord('new')}
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
-        >
-          + Add Entry
-        </button>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-gray-900">
+          All Records
+        </h1>
+        <Button icon={<Plus size={16} />} onClick={() => setModalRecord('new')}>
+          Add Entry
+        </Button>
       </div>
 
       <div className="mt-4">
@@ -64,7 +65,7 @@ export function AllRecords() {
         {error ? (
           <ErrorBanner error={error} />
         ) : loading ? (
-          <div className="py-12 text-center text-gray-400">Loading records...</div>
+          <Spinner label="Loading records..." />
         ) : (
           <RecordsTable records={visibleRecords} onRowClick={setModalRecord} />
         )}

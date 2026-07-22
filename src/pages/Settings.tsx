@@ -1,6 +1,10 @@
+import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { ErrorBanner } from '../components/ErrorBanner';
+import { Spinner } from '../components/Spinner';
 import { useConfigList } from '../hooks/useConfigList';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
 import {
@@ -10,6 +14,9 @@ import {
   updateConfigValue,
 } from '../lib/configLists';
 import type { ConfigListName } from '../types';
+
+const inputClass =
+  'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:bg-white focus:outline-none';
 
 function ConfigListEditor({ name, title }: { name: ConfigListName; title: string }) {
   const { values, loading, error } = useConfigList(name);
@@ -23,15 +30,15 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
     records.filter((r) => (name === 'types' ? r.type === value : r.unit === value)).length;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+    <Card className="p-5">
+      <h2 className="font-display text-base font-bold text-gray-900">{title}</h2>
 
       {error ? (
         <div className="mt-4">
           <ErrorBanner error={error} />
         </div>
       ) : loading ? (
-        <div className="mt-4 text-sm text-gray-400">Loading...</div>
+        <Spinner />
       ) : (
         <ul className="mt-4 divide-y divide-gray-100">
           {values.map((v) => (
@@ -48,42 +55,46 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
                     }
                     if (e.key === 'Escape') setEditing(null);
                   }}
-                  className="mr-2 flex-1 rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                  className={`mr-2 flex-1 ${inputClass}`}
                 />
               ) : (
                 <span className="text-sm text-gray-800">{v}</span>
               )}
-              <div className="flex gap-3">
+              <div className="flex gap-1">
                 {editing === v ? (
-                  <button
-                    type="button"
-                    className="text-sm font-medium text-brand-600 hover:text-brand-800"
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-brand-600 hover:text-brand-800"
                     onClick={async () => {
                       if (editValue.trim()) await updateConfigValue(name, v, editValue, values);
                       setEditing(null);
                     }}
                   >
                     Save
-                  </button>
+                  </Button>
                 ) : (
-                  <button
-                    type="button"
-                    className="text-sm font-medium text-gray-500 hover:text-gray-800"
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    icon={<Pencil size={13} />}
                     onClick={() => {
                       setEditing(v);
                       setEditValue(v);
                     }}
                   >
                     Rename
-                  </button>
+                  </Button>
                 )}
-                <button
-                  type="button"
-                  className="text-sm font-medium text-red-500 hover:text-red-700"
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  icon={<Trash2 size={13} />}
+                  className="text-red-500 hover:bg-red-50 hover:text-red-700"
                   onClick={() => setConfirmDelete(v)}
                 >
                   Delete
-                </button>
+                </Button>
               </div>
             </li>
           ))}
@@ -98,7 +109,7 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
           value={newValue}
           onChange={(e) => setNewValue(e.target.value)}
           placeholder={`Add new ${title.toLowerCase().slice(0, -1)}...`}
-          className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className={inputClass}
           onKeyDown={async (e) => {
             if (e.key === 'Enter' && newValue.trim()) {
               await addConfigValue(name, newValue, values);
@@ -106,18 +117,17 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
             }
           }}
         />
-        <button
-          type="button"
+        <Button
+          icon={<Plus size={15} />}
           onClick={async () => {
             if (newValue.trim()) {
               await addConfigValue(name, newValue, values);
               setNewValue('');
             }
           }}
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
         >
           Add
-        </button>
+        </Button>
       </div>
 
       {confirmDelete && (
@@ -137,14 +147,16 @@ function ConfigListEditor({ name, title }: { name: ConfigListName; title: string
           }}
         />
       )}
-    </div>
+    </Card>
   );
 }
 
 export function Settings() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-6">
-      <h1 className="text-xl font-bold text-gray-900">Settings</h1>
+      <h1 className="font-display text-xl font-extrabold tracking-tight text-gray-900">
+        Settings
+      </h1>
       <p className="mt-1 text-sm text-gray-500">
         Manage the Type and Unit options available when adding a purchase.
       </p>

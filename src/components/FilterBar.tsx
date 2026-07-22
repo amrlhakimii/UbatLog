@@ -1,3 +1,4 @@
+import { Card } from './Card';
 import { DEFAULT_FILTERS, type QuickRange, type RecordFilters } from '../lib/filters';
 
 interface FilterBarProps {
@@ -15,6 +16,9 @@ const QUICK_RANGES: { key: QuickRange; label: string }[] = [
   { key: 'all', label: 'All Time' },
 ];
 
+const selectClass =
+  'w-full rounded-xl border border-gray-200 bg-gray-50 px-2 py-1.5 text-sm transition-colors focus:border-brand-500 focus:bg-white focus:outline-none';
+
 export function FilterBar({
   filters,
   onChange,
@@ -25,26 +29,29 @@ export function FilterBar({
   const set = (patch: Partial<RecordFilters>) => onChange({ ...filters, ...patch });
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
+    <Card className="p-4">
       <div className="flex flex-wrap items-center gap-2">
-        {QUICK_RANGES.map((qr) => (
-          <button
-            key={qr.key}
-            type="button"
-            onClick={() => set({ quickRange: qr.key, dateFrom: '', dateTo: '' })}
-            className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-              filters.quickRange === qr.key && !filters.dateFrom && !filters.dateTo
-                ? 'bg-brand-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            {qr.label}
-          </button>
-        ))}
+        {QUICK_RANGES.map((qr) => {
+          const active = filters.quickRange === qr.key && !filters.dateFrom && !filters.dateTo;
+          return (
+            <button
+              key={qr.key}
+              type="button"
+              onClick={() => set({ quickRange: qr.key, dateFrom: '', dateTo: '' })}
+              className={`cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-all ${
+                active
+                  ? 'bg-gradient-to-r from-brand-500 to-brand-700 text-white shadow-[0_4px_14px_rgba(255,64,129,0.3)]'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {qr.label}
+            </button>
+          );
+        })}
         <button
           type="button"
           onClick={() => onChange(DEFAULT_FILTERS)}
-          className="ml-auto text-sm font-medium text-brand-600 hover:text-brand-800"
+          className="ml-auto cursor-pointer text-sm font-medium text-brand-600 hover:text-brand-800"
         >
           Clear filters
         </button>
@@ -52,29 +59,29 @@ export function FilterBar({
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">From</label>
+          <label className="label-eyebrow mb-1 block">From</label>
           <input
             type="date"
             value={filters.dateFrom}
             onChange={(e) => set({ dateFrom: e.target.value })}
-            className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+            className={selectClass}
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">To</label>
+          <label className="label-eyebrow mb-1 block">To</label>
           <input
             type="date"
             value={filters.dateTo}
             onChange={(e) => set({ dateTo: e.target.value })}
-            className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+            className={selectClass}
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Manufacturer</label>
+          <label className="label-eyebrow mb-1 block">Manufacturer</label>
           <select
             value={filters.manufacturer}
             onChange={(e) => set({ manufacturer: e.target.value })}
-            className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+            className={selectClass}
           >
             <option value="">All</option>
             {manufacturerOptions.map((m) => (
@@ -85,11 +92,11 @@ export function FilterBar({
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Pharmacy</label>
+          <label className="label-eyebrow mb-1 block">Pharmacy</label>
           <select
             value={filters.pharmacy}
             onChange={(e) => set({ pharmacy: e.target.value })}
-            className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+            className={selectClass}
           >
             <option value="">All</option>
             {pharmacyOptions.map((p) => (
@@ -100,11 +107,11 @@ export function FilterBar({
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Type</label>
+          <label className="label-eyebrow mb-1 block">Type</label>
           <select
             value={filters.type}
             onChange={(e) => set({ type: e.target.value })}
-            className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+            className={selectClass}
           >
             <option value="">All</option>
             {typeOptions.map((t) => (
@@ -117,15 +124,15 @@ export function FilterBar({
       </div>
 
       <div className="mt-4">
-        <label className="block text-xs font-medium text-gray-500 mb-1">Search product</label>
+        <label className="label-eyebrow mb-1 block">Search product</label>
         <input
           type="text"
           placeholder="Search by product name..."
           value={filters.productQuery}
           onChange={(e) => set({ productQuery: e.target.value })}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className={selectClass}
         />
       </div>
-    </div>
+    </Card>
   );
 }

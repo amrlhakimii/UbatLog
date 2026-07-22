@@ -1,9 +1,12 @@
+import { ArrowLeft, Plus } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AddEditRecordModal } from '../components/AddEditRecordModal';
+import { Button } from '../components/Button';
 import { ErrorBanner } from '../components/ErrorBanner';
 import { QuickPriceCalculator } from '../components/QuickPriceCalculator';
 import { RecordsTable } from '../components/RecordsTable';
+import { Spinner } from '../components/Spinner';
 import { UndoToast } from '../components/UndoToast';
 import { useConfigList } from '../hooks/useConfigList';
 import { useDeleteWithUndo } from '../hooks/useDeleteWithUndo';
@@ -11,6 +14,18 @@ import { useMedicationRecords } from '../hooks/useMedicationRecords';
 import { groupKey } from '../lib/grouping';
 import { createRecord, updateRecord } from '../lib/records';
 import type { MedicationRecord } from '../types';
+
+function BackLink() {
+  return (
+    <Link
+      to="/"
+      className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-800"
+    >
+      <ArrowLeft size={14} />
+      Back to Products
+    </Link>
+  );
+}
 
 export function ProductPage() {
   const { slug = '' } = useParams();
@@ -47,9 +62,7 @@ export function ProductPage() {
   if (error) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-6">
-        <Link to="/" className="text-sm text-brand-600 hover:underline">
-          &larr; Back to Products
-        </Link>
+        <BackLink />
         <div className="mt-6">
           <ErrorBanner error={error} />
         </div>
@@ -60,9 +73,7 @@ export function ProductPage() {
   if (!loading && productRecords.length === 0 && !modalRecord) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-6">
-        <Link to="/" className="text-sm text-brand-600 hover:underline">
-          &larr; Back to Products
-        </Link>
+        <BackLink />
         <div className="mt-6 text-center text-gray-400">Product not found.</div>
       </div>
     );
@@ -73,19 +84,15 @@ export function ProductPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      <Link to="/" className="text-sm text-brand-600 hover:underline">
-        &larr; Back to Products
-      </Link>
+      <BackLink />
 
       <div className="mt-2 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-900">{displayName}</h1>
-        <button
-          type="button"
-          onClick={() => setModalRecord('new')}
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
-        >
-          + Add Purchase
-        </button>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-gray-900">
+          {displayName}
+        </h1>
+        <Button icon={<Plus size={16} />} onClick={() => setModalRecord('new')}>
+          Add Purchase
+        </Button>
       </div>
 
       {latest && (
@@ -99,9 +106,9 @@ export function ProductPage() {
       )}
 
       <div className="mt-6">
-        <h2 className="mb-2 text-sm font-semibold text-gray-600">Purchase history</h2>
+        <h2 className="label-eyebrow mb-2">Purchase history</h2>
         {loading ? (
-          <div className="py-12 text-center text-gray-400">Loading...</div>
+          <Spinner />
         ) : (
           <RecordsTable records={productRecords} onRowClick={setModalRecord} />
         )}

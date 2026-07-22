@@ -1,5 +1,7 @@
+import { X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { AutocompleteInput } from './AutocompleteInput';
+import { Button } from './Button';
 import { ConfirmDialog } from './ConfirmDialog';
 import { costPerUnit, formatRM, recommendedPricePerUnit } from '../lib/pricing';
 import type { MedicationRecordInput } from '../types';
@@ -16,6 +18,10 @@ interface AddEditRecordModalProps {
   onSave: (input: MedicationRecordInput) => Promise<void>;
   onDelete?: () => void;
 }
+
+const inputClass =
+  'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:outline-none transition-colors';
+const labelClass = 'label-eyebrow mb-1 block';
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
@@ -92,20 +98,29 @@ export function AddEditRecordModal({
   const title = useMemo(() => (mode === 'add' ? 'Add Purchase' : 'Edit Purchase'), [mode]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 py-8">
-      <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
-        <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 py-8 backdrop-blur-sm">
+      <div className="w-full max-w-lg animate-modal-in rounded-3xl border border-black/5 bg-white p-6 shadow-2xl">
+        <div className="flex items-center justify-between">
+          <h2 className="font-display text-lg font-bold text-gray-900">{title}</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
+          >
+            <X size={16} />
+          </button>
+        </div>
 
         <div className="mt-4 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date of purchase <span className="text-red-500">*</span>
+            <label className={labelClass}>
+              Date of purchase <span className="text-brand-600">*</span>
             </label>
             <input
               type="date"
               value={datePurchased}
               onChange={(e) => setDatePurchased(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              className={inputClass}
             />
           </div>
 
@@ -139,14 +154,10 @@ export function AddEditRecordModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Type <span className="text-red-500">*</span>
+              <label className={labelClass}>
+                Type <span className="text-brand-600">*</span>
               </label>
-              <select
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
-              >
+              <select value={type} onChange={(e) => setType(e.target.value)} className={inputClass}>
                 <option value="">Select...</option>
                 {typeOptions.map((t) => (
                   <option key={t} value={t}>
@@ -156,14 +167,10 @@ export function AddEditRecordModal({
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Unit <span className="text-red-500">*</span>
+              <label className={labelClass}>
+                Unit <span className="text-brand-600">*</span>
               </label>
-              <select
-                value={unit}
-                onChange={(e) => setUnit(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
-              >
+              <select value={unit} onChange={(e) => setUnit(e.target.value)} className={inputClass}>
                 <option value="">Select...</option>
                 {unitOptions.map((u) => (
                   <option key={u} value={u}>
@@ -175,8 +182,8 @@ export function AddEditRecordModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Quantity per package <span className="text-red-500">*</span>
+            <label className={labelClass}>
+              Quantity per package <span className="text-brand-600">*</span>
             </label>
             <input
               type="number"
@@ -185,14 +192,14 @@ export function AddEditRecordModal({
               value={quantityPerPackage}
               onChange={(e) => setQuantityPerPackage(e.target.value)}
               placeholder="e.g. 28"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              className={inputClass}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price bought (whole pack, RM) <span className="text-red-500">*</span>
+              <label className={labelClass}>
+                Price bought (whole pack, RM) <span className="text-brand-600">*</span>
               </label>
               <input
                 type="number"
@@ -200,12 +207,12 @@ export function AddEditRecordModal({
                 step="0.01"
                 value={priceBought}
                 onChange={(e) => setPriceBought(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                className={inputClass}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Actual selling price / unit (RM) <span className="text-red-500">*</span>
+              <label className={labelClass}>
+                Actual selling price / unit (RM) <span className="text-brand-600">*</span>
               </label>
               <input
                 type="number"
@@ -213,22 +220,20 @@ export function AddEditRecordModal({
                 step="0.01"
                 value={actualSellingPricePerUnit}
                 onChange={(e) => setActualSellingPricePerUnit(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                className={inputClass}
               />
             </div>
           </div>
 
           {pricingValid && (
-            <div className="grid grid-cols-2 gap-4 rounded-lg bg-brand-50 p-4">
+            <div className="grid grid-cols-2 gap-4 rounded-2xl bg-gradient-to-br from-brand-50 to-white p-4">
               <div>
-                <div className="text-xs text-gray-500">Cost per unit</div>
-                <div className="text-base font-semibold text-gray-900">{formatRM(cost)}</div>
+                <div className="label-eyebrow">Cost per unit</div>
+                <div className="mt-1 text-base font-bold text-gray-900">{formatRM(cost)}</div>
               </div>
               <div>
-                <div className="text-xs text-gray-500">Recommended price / unit</div>
-                <div className="text-base font-semibold text-brand-700">
-                  {formatRM(recommended)}
-                </div>
+                <div className="label-eyebrow">Recommended price / unit</div>
+                <div className="mt-1 text-base font-bold text-brand-700">{formatRM(recommended)}</div>
               </div>
             </div>
           )}
@@ -236,32 +241,19 @@ export function AddEditRecordModal({
 
         <div className="mt-6 flex items-center justify-between gap-3">
           {mode === 'edit' && onDelete ? (
-            <button
-              type="button"
-              onClick={() => setConfirmingDelete(true)}
-              className="text-sm font-medium text-red-600 hover:text-red-800"
-            >
+            <Button variant="ghost" size="sm" onClick={() => setConfirmingDelete(true)} className="text-red-600 hover:bg-red-50 hover:text-red-700">
               Delete
-            </button>
+            </Button>
           ) : (
             <span />
           )}
           <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
-            >
+            <Button variant="secondary" onClick={onClose}>
               Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={!isValid || saving}
-              className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
+            </Button>
+            <Button onClick={handleSave} disabled={!isValid || saving}>
               {saving ? 'Saving...' : 'Save'}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

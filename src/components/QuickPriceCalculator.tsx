@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Card } from './Card';
 import { costPerUnit, formatRM, recommendedPricePerUnit } from '../lib/pricing';
 
 interface QuickPriceCalculatorProps {
@@ -6,6 +7,9 @@ interface QuickPriceCalculatorProps {
   initialQuantityPerPackage?: number;
   title?: string;
 }
+
+const inputClass =
+  'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition-colors focus:border-brand-500 focus:bg-white focus:outline-none';
 
 // Pass a `key` prop from the parent (e.g. the source record's id) so this
 // remounts with fresh initial values instead of syncing them via an effect.
@@ -31,56 +35,48 @@ export function QuickPriceCalculator({
   const total = valid && sellQty > 0 ? recommended * sellQty : null;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <h3 className="text-base font-semibold text-gray-900">{title}</h3>
+    <Card className="p-5">
+      <h3 className="font-display text-base font-bold text-gray-900">{title}</h3>
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Price bought (whole pack, RM)
-          </label>
+          <label className="label-eyebrow mb-1 block">Price bought (whole pack, RM)</label>
           <input
             type="number"
             min="0"
             step="0.01"
             value={priceBought}
             onChange={(e) => setPriceBought(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className={inputClass}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Quantity per package
-          </label>
+          <label className="label-eyebrow mb-1 block">Quantity per package</label>
           <input
             type="number"
             min="0"
             step="1"
             value={quantityPerPackage}
             onChange={(e) => setQuantityPerPackage(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className={inputClass}
           />
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-4 rounded-lg bg-brand-50 p-4">
+      <div className="mt-4 grid grid-cols-2 gap-4 rounded-2xl bg-gradient-to-br from-brand-50 to-white p-4">
         <div>
-          <div className="text-xs text-gray-500">Cost per unit</div>
-          <div className="text-lg font-semibold text-gray-900">
-            {valid ? formatRM(cost) : '—'}
-          </div>
+          <div className="label-eyebrow">Cost per unit</div>
+          <div className="mt-1 text-lg font-bold text-gray-900">{valid ? formatRM(cost) : '—'}</div>
         </div>
         <div>
-          <div className="text-xs text-gray-500">Recommended price per unit</div>
-          <div className="text-lg font-semibold text-brand-700">
+          <div className="label-eyebrow">Recommended price per unit</div>
+          <div className="mt-1 text-lg font-bold text-brand-700">
             {valid ? formatRM(recommended) : '—'}
           </div>
         </div>
       </div>
 
       <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Quantity to sell (optional)
-        </label>
+        <label className="label-eyebrow mb-1 block">Quantity to sell (optional)</label>
         <input
           type="number"
           min="0"
@@ -88,14 +84,14 @@ export function QuickPriceCalculator({
           placeholder="e.g. 10"
           value={quantityToSell}
           onChange={(e) => setQuantityToSell(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+          className={inputClass}
         />
         {total !== null && (
           <div className="mt-2 text-sm text-gray-700">
-            Total for {quantityToSell} unit(s): <span className="font-semibold">{formatRM(total)}</span>
+            Total for {quantityToSell} unit(s): <span className="font-bold">{formatRM(total)}</span>
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

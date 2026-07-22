@@ -1,4 +1,6 @@
 import { Navigate } from 'react-router-dom';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 
 export function Login() {
@@ -17,18 +19,17 @@ export function Login() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm rounded-xl bg-white p-8 text-center shadow-lg">
-        <h1 className="text-2xl font-bold text-brand-700">UbatLog</h1>
+    <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
+      <Card className="w-full max-w-sm animate-fade-up p-8 text-center">
+        <h1 className="font-display text-2xl font-extrabold tracking-tight">
+          <span className="text-brand-600">Ubat</span>
+          <span className="text-gray-900">Log</span>
+        </h1>
         <p className="mt-2 text-sm text-gray-500">Clinic medication purchase log</p>
-        <button
-          type="button"
-          onClick={() => signIn()}
-          className="mt-6 w-full rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"
-        >
+        <Button onClick={() => signIn()} size="lg" className="mt-6 w-full">
           Sign in with Google
-        </button>
-      </div>
+        </Button>
+      </Card>
     </div>
   );
 }
