@@ -7,6 +7,7 @@ import { Card } from '../components/Card';
 import { EmptyState } from '../components/EmptyState';
 import { ErrorBanner } from '../components/ErrorBanner';
 import { Spinner } from '../components/Spinner';
+import { useAuth } from '../hooks/useAuth';
 import { useConfigList } from '../hooks/useConfigList';
 import { useMedicationRecords } from '../hooks/useMedicationRecords';
 import { groupByProduct } from '../lib/grouping';
@@ -19,8 +20,18 @@ function avatarColor(seed: string): string {
   return AVATAR_COLORS[index];
 }
 
+function formatDate(iso: string): string {
+  const [year, month, day] = iso.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
 export function ProductsIndex() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { records, loading, error } = useMedicationRecords();
   const { values: typeOptions } = useConfigList('types');
   const { values: unitOptions } = useConfigList('units');
@@ -47,12 +58,17 @@ export function ProductsIndex() {
     return all.filter((g) => g.displayName.toLowerCase().includes(q));
   }, [records, search]);
 
+  const firstName = user?.displayName?.split(' ')[0] ?? '';
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-xl font-extrabold tracking-tight text-gray-900">
-          Products
-        </h1>
+      <p className="label-eyebrow">Klinik Soma · UbatLog</p>
+      <h1 className="mt-1 font-display text-2xl font-extrabold tracking-tight text-gray-900">
+        Welcome back{firstName ? `, ${firstName}` : ''} 👋
+      </h1>
+
+      <div className="mt-6 flex items-center justify-between">
+        <h2 className="text-sm font-semibold text-gray-500">Products</h2>
         <Button icon={<Plus size={16} />} onClick={() => setAddingNew(true)}>
           Add Entry
         </Button>
@@ -97,14 +113,15 @@ export function ProductsIndex() {
                     {g.displayName.charAt(0).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <h2 className="truncate text-base font-semibold text-gray-900">
+                    <h3 className="truncate text-base font-semibold text-gray-900">
                       {g.displayName}
-                    </h2>
+                    </h3>
                     <p className="mt-0.5 text-sm text-gray-500">
-                      {g.records.length} purchase{g.records.length === 1 ? '' : 's'} · last{' '}
-                      {latest.datePurchased}
+                      {g.records.length} purchase{g.records.length === 1 ? '' : 's'}
                     </p>
-                    <p className="mt-0.5 text-xs text-gray-400">{latest.manufacturerName}</p>
+                    <p className="mt-0.5 whitespace-nowrap text-xs text-gray-400">
+                      Last bought {formatDate(latest.datePurchased)} · {latest.manufacturerName}
+                    </p>
                   </div>
                 </button>
               </Card>
