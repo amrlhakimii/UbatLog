@@ -117,7 +117,7 @@ export function ProductsIndex() {
                       {g.displayName}
                     </h3>
                     <p className="mt-0.5 text-sm text-gray-500">
-                      {g.records.length} purchase{g.records.length === 1 ? '' : 's'}
+                      Restock count: {g.records.length}
                     </p>
                     <p className="mt-0.5 whitespace-nowrap text-xs text-gray-400">
                       Last bought {formatDate(latest.datePurchased)} · {latest.manufacturerName}
