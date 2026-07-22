@@ -13,7 +13,7 @@ export function NavBar() {
   const { user, signOut } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur-md">
+    <nav className="sticky top-0 z-30 rounded-b-[2rem] bg-white/80 shadow-[0_8px_24px_rgba(0,0,0,0.06)] backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
           <span className="font-display text-lg font-extrabold tracking-tight">

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BackgroundBlobs } from './components/BackgroundBlobs';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { AllRecords } from './pages/AllRecords';
@@ -11,6 +12,7 @@ import { Settings } from './pages/Settings';
 function App() {
   return (
     <AuthProvider>
+      <BackgroundBlobs />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
