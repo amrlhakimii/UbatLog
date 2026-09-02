@@ -73,7 +73,7 @@ export function ProductPage() {
     );
   }
 
-  if (!loading && productRecords.length === 0 && !modalRecord) {
+  if (!loading && productRecords.length === 0 && !modalRecord && !pendingDeleteId) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-6">
         <BackLink />

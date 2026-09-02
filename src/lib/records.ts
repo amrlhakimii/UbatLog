@@ -6,6 +6,7 @@ import {
   onSnapshot,
   serverTimestamp,
   updateDoc,
+  writeBatch,
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import type { MedicationRecord, MedicationRecordInput } from '../types';
@@ -66,4 +67,20 @@ export async function updateRecord(
 export async function deleteRecord(id: string): Promise<void> {
   const ref = doc(db, COLLECTION, id);
   await deleteDoc(ref);
+}
+
+export async function deleteRecords(ids: string[]): Promise<void> {
+  const batch = writeBatch(db);
+  for (const id of ids) {
+    batch.delete(doc(db, COLLECTION, id));
+  }
+  await batch.commit();
+}
+
+export async function renameProduct(ids: string[], newName: string): Promise<void> {
+  const batch = writeBatch(db);
+  for (const id of ids) {
+    batch.update(doc(db, COLLECTION, id), { productName: newName, updatedAt: serverTimestamp() });
+  }
+  await batch.commit();
 }
