@@ -169,7 +169,7 @@ export function ProductsIndex() {
                     </p>
                   </div>
                 </button>
-                <div className="absolute right-3 top-3 flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute right-3 top-3 flex items-center gap-1">
                   <button
                     type="button"
                     onClick={(e) => {
@@ -178,7 +178,7 @@ export function ProductsIndex() {
                       setEditingGroup(g);
                     }}
                     aria-label={`Edit ${g.displayName}`}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-brand-50 hover:text-brand-600"
                   >
                     <Pencil size={14} />
                   </button>
@@ -189,7 +189,7 @@ export function ProductsIndex() {
                       setDeletingGroup(g);
                     }}
                     aria-label={`Delete ${g.displayName}`}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-red-50 hover:text-red-600"
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-red-50 hover:text-red-600"
                   >
                     <Trash2 size={14} />
                   </button>

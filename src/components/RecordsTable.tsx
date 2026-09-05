@@ -2,6 +2,7 @@ import { ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import { Card } from './Card';
 import { EmptyState } from './EmptyState';
+import { formatDateDMY } from '../lib/dates';
 import { costPerUnit, formatRM, recommendedPricePerUnit } from '../lib/pricing';
 import type { MedicationRecord } from '../types';
 
@@ -18,7 +19,7 @@ const COLUMNS: Column[] = [
     key: 'datePurchased',
     label: 'Date',
     sortable: true,
-    render: (r) => r.datePurchased,
+    render: (r) => formatDateDMY(r.datePurchased),
     sortValue: (r) => r.datePurchased,
   },
   { key: 'manufacturerName', label: 'Manufacturer', sortable: true, render: (r) => r.manufacturerName },
