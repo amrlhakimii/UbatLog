@@ -178,7 +178,7 @@ export function ProductsIndex() {
                       setEditingGroup(g);
                     }}
                     aria-label={`Edit ${g.displayName}`}
-                    className="flex h-7 w-7 items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-brand-50 hover:text-brand-600 active:bg-brand-50 active:text-brand-600"
                   >
                     <Pencil size={14} />
                   </button>
@@ -189,7 +189,7 @@ export function ProductsIndex() {
                       setDeletingGroup(g);
                     }}
                     aria-label={`Delete ${g.displayName}`}
-                    className="flex h-7 w-7 items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-red-50 hover:text-red-600"
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600 active:bg-red-50 active:text-red-600"
                   >
                     <Trash2 size={14} />
                   </button>
