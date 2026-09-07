@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { BackgroundBlobs } from './components/BackgroundBlobs';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { AllRecords } from './pages/AllRecords';
@@ -14,16 +15,18 @@ function App() {
     <AuthProvider>
       <BackgroundBlobs />
       <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<ProductsIndex />} />
-            <Route path="/products/:slug" element={<ProductPage />} />
-            <Route path="/records" element={<AllRecords />} />
-            <Route path="/calculator" element={<Calculator />} />
-            <Route path="/settings" element={<Settings />} />
-          </Route>
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<ProductsIndex />} />
+              <Route path="/products/:slug" element={<ProductPage />} />
+              <Route path="/records" element={<AllRecords />} />
+              <Route path="/calculator" element={<Calculator />} />
+              <Route path="/settings" element={<Settings />} />
+            </Route>
+          </Routes>
+        </ErrorBoundary>
       </BrowserRouter>
     </AuthProvider>
   );

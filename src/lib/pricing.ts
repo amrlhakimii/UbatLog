@@ -13,5 +13,5 @@ export function recommendedPricePerUnit(cost: number): number {
 }
 
 export function formatRM(value: number): string {
-  return `RM ${value.toFixed(2)}`;
+  return `RM ${Number.isFinite(value) ? value.toFixed(2) : '0.00'}`;
 }
