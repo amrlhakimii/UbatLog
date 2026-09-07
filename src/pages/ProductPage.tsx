@@ -38,7 +38,7 @@ export function ProductPage() {
   const { pendingDeleteId, pendingLabel, requestDelete, undo, expire } = useDeleteWithUndo();
   const successToast = useSuccessToast();
 
-  const decodedSlug = decodeURIComponent(slug);
+  const decodedSlug = slug;
 
   const productRecords = useMemo(
     () =>
